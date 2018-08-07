@@ -1,30 +1,25 @@
-#ifndef Login_H
-#define Login_H
+#ifndef LOGIN_H
+#define LOGIN_H
 
 #include <QWidget>
-#include "userinfo.h"
+#include <QCloseEvent>
 
 namespace Ui {
-class Login;
+class login;
 }
 
-class Login : public QWidget
+class login : public QWidget
 {
     Q_OBJECT
 
-signals:
-    void signalLoginSuccess(UserInfo info); //信号-登陆成功
-
 public:
-    explicit Login(QWidget *parent = 0);    //构造函数
-    ~Login();   //析构函数
+    explicit login(QWidget *parent = 0);
+    ~login();
 
-private slots:
-    void on_pb_enter_clicked();     //槽-点击进入
-    void on_pb_cancle_clicked();    //槽-点击取消
+
 
 private:
-    Ui::Login *ui;
+    Ui::login *ui;
 };
 
-#endif // Login_H
+#endif // LOGIN_H

@@ -28,7 +28,7 @@ DataPacket::~DataPacket()   //析构函数
 QByteArray DataPacket::packetData(void)
 {
     QByteArray buffer;//QByteArray类提供了一个字节数组。
-    //buffer.clear();
+   // buffer.clear();
 
     QDataStream out(&buffer,QIODevice::WriteOnly);//QDataStream 处理字节流
     //QDataStream::QDataStream ( QByteArray a, int mode )
@@ -38,18 +38,24 @@ QByteArray DataPacket::packetData(void)
     out.setVersion(QDataStream::Qt_5_4);
 
     out << m_startFlag;
+    //out << FLAG_START;
     out << (quint16)0;
     out << m_packetType;
     out << m_protocol->packetProtocol();
     out << m_endFlag;
-
-    m_packetSize = (quint16)(buffer.size() - sizeof(quint16)-sizeof(quint16));
-    //缓冲区大小减去预留的长度位置，再减去帧头大小
-    out.device()->seek(2);  //指回长度,seek是按字节计算的
+    //out << FLAG_END;
 
     //m_packetSize = (quint16)(buffer.size() - sizeof(quint16));
-    //out.device()->seek(3);  //指回长度
+    m_packetSize = (quint16)(buffer.size() - sizeof(quint16)-sizeof(quint16) );
+    out.device()->seek(2);  //指回长度,seek函数是按字节进行计算的
     out << m_packetSize;
+
+    qDebug() << "m_startFlag" << FLAG_START;
+    qDebug() << "m_packetSize" << m_packetSize;
+    qDebug() << "m_packetType" << m_packetType;
+    qDebug() << "m_protocol" << m_protocol;
+    qDebug() << "m_endFlag" << FLAG_END;
+
 
     return buffer;
 }
@@ -60,12 +66,6 @@ void DataPacket::unPacketData(QTcpSocket *socket)
     qDebug() << "DataPacket::unpacketData(QTcpSocket *socket)";
     QDataStream in(socket);//构造一个使用输入/输出设备d的数据流。
     in.setVersion(QDataStream::Qt_5_4);
-
-//    qDebug() <<"m_startFlag" << m_startFlag;
-//    qDebug() <<"m_packetSize"<< m_packetSize;
-//    qDebug() <<"m_packetType"<< m_packetType;
-//    qDebug() << "m_protocol"<< m_protocol;
-//    qDebug() <<"m_endFlag"<< m_endFlag;
 
     in >> m_startFlag;
     qDebug() <<"m_startFlag" << m_startFlag;
@@ -91,11 +91,11 @@ void DataPacket::unPacketData(QTcpSocket *socket)
         }
 
         in >> m_packetType;
-        qDebug() << "m_packetType"<< m_packetType;
+        //qDebug() << "m_packetType"<< m_packetType;
 
         QByteArray unpacketData;
         in >> unpacketData;
-        qDebug() << "Recv: " << unpacketData.toHex();
+        //qDebug() << "Recv: " << unpacketData.toHex();
         QDataStream unpacketDataStream(unpacketData);
         unpacketDataStream.setVersion(QDataStream::Qt_5_4);
 
@@ -123,8 +123,8 @@ void DataPacket::unPacketData(QTcpSocket *socket)
 void DataPacket::clearDataPackect(void)
 {
     m_startFlag = FLAG_START;
-    m_packetSize = PACKET_SIZE_INIT;
     m_packetType = PacketType_Normal;
+    m_packetSize = PACKET_SIZE_INIT;
     m_protocol = PROTOCOL_PTR_INIT;
     m_endFlag = FLAG_END;
 }
@@ -149,7 +149,7 @@ quint16 DataPacket::getPacketType(void) const
 }
 
 ///得到包的大小
-quint32 DataPacket::getPacketSize(void) const
+quint16 DataPacket::getPacketSize(void) const
 {
     return m_packetSize;
 }

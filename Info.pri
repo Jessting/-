@@ -5,14 +5,13 @@ HEADERS += \
     $$PWD/user.h \
     $$PWD/student.h \
     $$PWD/teacher.h \
-    $$PWD/admin.h \
     $$PWD/info.h \
-    $$PWD/dbadmin.h
+    $$PWD/admin.h
+
 
 SOURCES += \
     $$PWD/user.cpp \
     $$PWD/student.cpp \
     $$PWD/teacher.cpp \
-    $$PWD/admin.cpp \
-    $$PWD/dbadmin.cpp
+    $$PWD/admin.cpp
 

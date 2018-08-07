@@ -2,7 +2,9 @@
 
 #include <QDebug>
 #include <QDataStream>
-#include "connectclient.h"
+
+#include "execnormalprotocol.h"
+#include "connectserver.h"
 
 //正常协议带参数的构造函数
 NormalProtocol::NormalProtocol(quint32 client ,quint8 operType ,
@@ -64,7 +66,10 @@ const QByteArray NormalProtocol::packetProtocol () const
     //QDataStream::QDataStream(QByteArray * a, QIODevice::OpenMode mode)
     //构造一个在字节数组上操作的数据流，该模式描述了如何使用该设备。
     QDataStream out(&buffer,QIODevice::WriteOnly);
-     //将数据序列化格式的版本号设置为v，即版本enum的值。
+    //QDataStream类向QIODevice提供二进制数据的序列化。
+    //QDataStream::QDataStream(QByteArray * a, QIODevice::OpenMode mode)
+    //构造一个在字节数组上操作的数据流，该模式描述了如何使用该设备。
+    //将数据序列化格式的版本号设置为v，即版本enum的值。
     out.setVersion(QDataStream::Qt_5_4);
 
     out << m_client;
@@ -80,11 +85,12 @@ const QByteArray NormalProtocol::packetProtocol () const
 ///解包协议，传入字节流引用
 void NormalProtocol::unPacketProcotol(QDataStream &in)
 {
+    qDebug() << "NormalProtocol::unpacketProtocol";
     in >> m_client;
     in >> m_operType;
     in >> m_operCmd;
     in >> m_dataType;
     in >> m_dataCont;
 
-    ConnectClient::q_queueNormalProtocol.enqueue(*this);//加入队列
+    ConnectServer::q_queueNormalProtocol.enqueue(*this);//加入队列
 }

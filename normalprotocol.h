@@ -3,8 +3,8 @@
 
 #include "abstructprotocol.h"
 
-#include <QQueue>   //QQueue类是提供队列的通用容器。
-#include <QVariant>
+#include <QQueue>//QQueue类是提供队列的通用容器。
+#include <QVariant>//QVariant类的作用类似于最常见的Qt数据类型的联合。
 
 /*用户操作类型*/
 enum USER_OPER{

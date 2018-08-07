@@ -6,6 +6,7 @@
 
 #define CLIENT_NONE 0
 #define MSG_NONE_CMD 0
+#define MSG_ID_INIT 0  //宏定义
 
 //枚举-数据类型定义
 enum DATA_TYPE{

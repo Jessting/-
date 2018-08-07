@@ -4,12 +4,7 @@
 
 Student::Student()//学生类构造函数
 {
-    m_birth.clear();
-    m_sex.clear();
-    m_idCard.clear();
-    m_classID.clear();
-    m_departID.clear();
-    m_phone.clear();
+   clearStudentInfo();
 }
 
 ///带参数构造函数
@@ -189,3 +184,8 @@ QString Student::packageinfos(void)
 
     return data;
 }
+
+
+
+
+

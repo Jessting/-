@@ -2,16 +2,17 @@
 #define USER_H
 
 #include <QString>
-#include <QMetaType>
+#include <QMetaType>//QMetaType类在元对象系统中管理命名类型。
 
 class User
 {
 public:
     User();//构造函数
-    User(QString ID,QString name,QString password,QString kind);//带参数构造函数
+    User(const QString &ID,const QString &name,
+         const QString &password,const QString &kind);//带参数构造函数
 
-
-    void updataUserinfo(User *info);
+    void updataUserinfo(User *info);    //传入指针对象，更新用户信息
+    //传入引用，更新用户信息
     void updataUserinfo(const QString &ID,const QString &name,
                         const QString &password,const QString &kind);
 
@@ -39,10 +40,15 @@ private :
     QString m_kind;
 };
 
+/*在使用Qt进行应用程序开发时，经常要自定义数据类型，
+ * 而且在需要的时候还要把这些数据放到QVariant中去。
+ * 因为QVariant是一个接受绝大部分类型的数据类型。
+ * 为了达到这个目的，就必须使用Q_DECLARE_METATYPE。*/
+
+Q_DECLARE_METATYPE(User)//自定义类型
+
+
 typedef QList<User> UserList;//定义用户列表
-
-Q_DECLARE_METATYPE(User)
-
 Q_DECLARE_METATYPE(UserList)//自定义类型
 
 #endif // USER_H

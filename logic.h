@@ -1,35 +1,48 @@
 #ifndef LOGIC_H
 #define LOGIC_H
 
-#include <QObject>
-#include "info.h"
+#include <QWidget>
+
+#include "connectserver.h"
+#include "login.h"
+#include "studentmainw.h"
+#include "adminmainw.h"
+#include "teachermainw.h"
 
 class Login;
-class MainWindow;
-class ListenClient;
 
 namespace Ui {
-class Logic;
+class logic;
 }
 
-class Logic : public QObject
+class logic :  public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Logic(QObject *parent = 0);
-    ~Logic();
+    explicit logic(QObject *parent = 0);
+    ~logic();
 
     void showLoginW(void);
 
+signals:
+    void signalStudentID(QString id);
+    void signalAdminID(QString id);
+    void signalTeacherID(QString id);
+
+
+
 public slots:
     void slotUserLoginSuccess(User info);
+    void slotCloseProject(void);
 
 private:
+    Login         *m_login;
+    StudentMainW  *m_stuMainW;
+    AdminMainW    *m_adminMainW;
+    TeacherMainW  *m_teacherW;
 
-    Login *m_login;
-    MainWindow *m_mainw;
-    ListenClient *m_tcpServer;
+    ConnectServer *m_connectServer;
 };
 
 #endif // LOGIC_H

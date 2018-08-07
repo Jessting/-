@@ -8,12 +8,9 @@ User::User()//用户类构造函数
 }
 
 ///用户类带参数的构造函数
-User::User(QString ID,QString name,QString password,QString kind)
+User::User(const QString &ID, const QString &name, const QString &password, const QString &kind)
 {
-    m_id = ID;
-    m_name = name;
-    m_password = password;
-    m_kind = kind;
+    updataUserinfo(ID,name,password,kind);
 }
 
 ///传入用户指针，更新用户信息

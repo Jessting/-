@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AdminMainW</class>
+ <widget class="QMainWindow" name="AdminMainW">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1083</width>
+    <height>657</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>管理员</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>70</y>
+      <width>321</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <item>
+     <property name="text">
+      <string>用户管理</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>系别管理</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>班级管理</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>管理员信息</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>学籍管理</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>教师管理</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>教室分配</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>时间安排</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>课程管理</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>考试安排</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>成绩管理</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>其他</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>60</y>
+      <width>701</width>
+      <height>501</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="page">
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="1" column="0">
+         <widget class="QWidget" name="widget" native="true">
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0">
+            <widget class="QTableWidget" name="tableWidget"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QWidget" name="wgt_user" native="true">
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="pb_first">
+             <property name="text">
+              <string>首页</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pb_prev">
+             <property name="text">
+              <string>上一页</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QPushButton" name="pb_end">
+             <property name="text">
+              <string>尾页</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QPushButton" name="pb_next">
+             <property name="text">
+              <string>下一页</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="5">
+            <widget class="QPushButton" name="pb_reflash">
+             <property name="text">
+              <string>刷新</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="4">
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QWidget" name="wgt_up" native="true">
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="0" column="1">
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="4">
+              <widget class="QLabel" name="lb_num">
+               <property name="text">
+                <string>查询到的人数：</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="5">
+              <widget class="QLineEdit" name="le_num"/>
+             </item>
+             <item row="0" column="0">
+              <widget class="QComboBox" name="cb_choose">
+               <item>
+                <property name="text">
+                 <string>所有人</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>管理员</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>教师</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>学生</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QPushButton" name="pb_selectUser">
+               <property name="text">
+                <string>查询</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_departmrnt">
+     <layout class="QGridLayout" name="gridLayout_7">
+      <item row="0" column="0">
+       <widget class="QWidget" name="wgt_department" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_class">
+     <layout class="QGridLayout" name="gridLayout_8">
+      <item row="0" column="0">
+       <widget class="QWidget" name="wgt_class" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_admin">
+     <layout class="QGridLayout" name="gridLayout_9">
+      <item row="0" column="0">
+       <widget class="QWidget" name="wgt_admin" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_student">
+     <layout class="QGridLayout" name="gridLayout_10">
+      <item row="0" column="0">
+       <widget class="StudentManage" name="wgt_student" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_teacher">
+     <layout class="QGridLayout" name="gridLayout_11">
+      <item row="0" column="0">
+       <widget class="QWidget" name="wgt_teacher" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_classroom">
+     <layout class="QGridLayout" name="gridLayout_12">
+      <item row="0" column="0">
+       <widget class="QWidget" name="wgt_classroom" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_time">
+     <layout class="QGridLayout" name="gridLayout_13">
+      <item row="0" column="0">
+       <widget class="QWidget" name="wgt_time" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_arrange">
+     <layout class="QGridLayout" name="gridLayout_14">
+      <item row="0" column="0">
+       <widget class="QWidget" name="wgt_arrange" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_exam">
+     <layout class="QGridLayout" name="gridLayout_15">
+      <item row="0" column="0">
+       <widget class="QWidget" name="wgt_exam" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_grade">
+     <layout class="QGridLayout" name="gridLayout_16">
+      <item row="0" column="0">
+       <widget class="QWidget" name="wgt_grade" native="true"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_other">
+     <widget class="QWidget" name="wgt_up_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>50</y>
+        <width>281</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>30</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>上传文件</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>190</y>
+        <width>251</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>10</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>下载文件</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="widget_3" native="true">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>290</y>
+        <width>211</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>修改密码</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="lb_adminID">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>520</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>管理员账号：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_adminID">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>520</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1083</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>StudentManage</class>
+   <extends>QWidget</extends>
+   <header location="global">studentmanage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

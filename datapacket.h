@@ -37,22 +37,17 @@ public:
     void updatePacketData(quint8 packetType, AbstructProtocol *protocol);//更新数据库
     quint16 getPacketStart(void) const;//得到包的起始位
     quint16 getPacketType(void) const;//得到包的类型
-    quint32 getPacketSize(void) const;//得到包的大小
+    quint16 getPacketSize(void) const;//得到包的大小
     AbstructProtocol *getProtocol(void) const;//得到包的协议
     quint16 getPacketEnd(void) const;//得到包的结束位
 
 private:
-//    QString           m_startFlag;
-//    quint8            m_packetType;
-//    quint16           m_packetSize;
-//    AbstructProtocol *m_protocol;
-//    QString           m_endFlag;
-
 
     quint16         m_startFlag;
     quint16            m_packetType;
     quint16           m_packetSize;
     AbstructProtocol *m_protocol;
+    //QString           m_endFlag;
     quint16         m_endFlag;
 
 };

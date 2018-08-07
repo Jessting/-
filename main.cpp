@@ -1,7 +1,5 @@
-#include <QApplication>
-
 #include "logic.h"
-#include "connectsql.h"
+#include <QApplication>
 
 #include <QMetaType>
 
@@ -11,9 +9,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<UserList>("UserList");
 
     QApplication a(argc, argv);
-
-    ConnectSQL db;
-    Logic lo;
+    logic lo;
     lo.showLoginW();
 
     return a.exec();

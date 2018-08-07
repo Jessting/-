@@ -4,7 +4,6 @@
 #include <QThread>
 
 #include "info.h"
-#include "datapacket.h"
 #include "normalprotocol.h"
 
 class ExecNormalProtocol : public QObject
@@ -36,7 +35,7 @@ public:
     void execOperateCmdQuitTake(void);      //执行操作命令-退选
 
     ////教学安排表/排课表
-    void execOperateCmdArrange(void);      //执行操作命令-执行操作命令-教学安排
+    void execOperateCmdArrange(void);      //执行操作命令-教学安排
     void execOperateCmdAskArrange(void);   //执行操作命令-查看排课表
     void execOperateCmdAddArrange(void);   //执行操作命令-添加排课信息
     void execOperateCmdModifyArrange(void);//执行操作命令-修改排课信息
@@ -48,7 +47,6 @@ public:
     void execOperateCmdModifyExam(void); //执行操作命令-修改考试安排表
     void execOperateCmdAddExam(void);    //执行操作命令-添加考试信息
     void execOperateCmdDelExam(void);    //执行操作命令-删除考试信息
-
 
     ////成绩管理
     void execOperateCmdGrade(void);        //执行操作命令-成绩管理
@@ -64,7 +62,6 @@ public:
     void execOperateCmdAddTeacher(void);    //执行操作命令-添加教师信息
     void execOperateCmdModifyTeacher(void); //执行操作命令-修改教师信息
     void execOperateCmdDelTeacher (void);   //执行操作命令-删除教师信息
-
 
     ////用户管理
     void execOperateCmdUser(void);       //执行操作命令-用户管理
@@ -115,12 +112,14 @@ public:
     void execOperateCmdAskVersion (void);//执行操作命令-介绍版本
 
 signals:
-    void signalSendDataToClient(QByteArray buffer);//信号-发送数据到客户端
+
     void signalUserLoginSuccess(User info);     //信号-用户登录成功
+    void signalSelectUserInfos(UserList list);  //信号-查询用户列表
+    void signalAskUserAll(QByteArray buffer); //信号-获取所有用户信息
+    void signalSelectStuAll(StudentList list);  //信号-获取所有的学生信息
 
 private:
     NormalProtocol m_protocol; //对象-正常协议
-    DataPacket m_dataPacket;   //对象-数据包
 
 };
 

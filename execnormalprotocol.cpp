@@ -1,9 +1,10 @@
 #include "execnormalprotocol.h"
 
-#include "sqlanalyze.h"
 
 #include <QDebug>
 #include <QStringList>
+
+#include "info.h"
 
 ExecNormalProtocol::ExecNormalProtocol(QObject *parent)
           :QObject(parent)
@@ -20,8 +21,7 @@ ExecNormalProtocol::~ExecNormalProtocol()//析构函数
 void ExecNormalProtocol::execOperateCmd(const NormalProtocol &protocol)
 {
     m_protocol = protocol;
-    qDebug() << "void ExecNormalProtocol::execUserOperate(void)";
-    qDebug() << m_protocol.m_operType;
+    //qDebug() << "void ExecNormalProtocol::execUserOperate(void)";
     switch (m_protocol.m_operType) {
     case OperType_None: break;                             //操作-空操作
     case OperType_Login: execOperateCmdLogin(); break;     //操作-登陆
@@ -43,10 +43,11 @@ void ExecNormalProtocol::execOperateCmd(const NormalProtocol &protocol)
     }
 }
 
+
 ////////////执行操作命令-登陆
 void ExecNormalProtocol::execOperateCmdLogin(void)
 {
-    qDebug() << "void ExecNormalProtocol::execOperateCmdLogin(void)";
+   //qDebug() << "void ExecNormalProtocol::execOperateCmdLogin(void)";
     switch (m_protocol.m_operCmd) {
     case CmdLogin_LoginAsk: execOperateCmdLoginAsk(); break;
     //case CmdLogin_QuitAsk: execOperateCmdExitAsk(); break;
@@ -57,35 +58,13 @@ void ExecNormalProtocol::execOperateCmdLogin(void)
 ///执行操作命令-登陆请求
 void ExecNormalProtocol::execOperateCmdLoginAsk(void)
 {
-    qDebug() << "execOperateCmdLoginAsk" << QString::fromLatin1(m_protocol.m_dataCont);
-    QStringList list = QString::fromLatin1(m_protocol.m_dataCont).split("|");
+    QStringList list = QString::fromUtf8(m_protocol.m_dataCont).split("|");
+    //qDebug() << list;
 
-    User info = SQLAnalyze::selectUserInfo(list[0]);
+    User info;
 
-    if(info.getPassword() == list[1])
-    {
-        QString msg = info.packageinfos();
-        m_protocol.clearProtocolData();
-        m_dataPacket.clearDataPackect();
-        m_protocol.updateNormalProtocol(CLIENT_NONE,
-                                        OperType_Login, CmdLogin_LoginAsk,
-                                        DataType_Text, msg.toUtf8());
-
-        m_dataPacket.updatePacketData(PacketType_Normal,&m_protocol);
-        QByteArray buffer = m_dataPacket.packetData();
-        emit signalSendDataToClient(buffer);
-        emit signalUserLoginSuccess(info);
-    }/*else
-    {
-        ErrorProtocol errorProtocol;
-        m_dataPacket.clearDataPackect();
-        errorProtocol.updateErrorProtocol(CLIENT_NONE,
-                                        ErrorType_Data, ErrorData_LoginAsk);
-
-        m_dataPacket.updatePacketData(PacketType_Error,&errorProtocol);
-        QByteArray buffer = m_dataPacket.packetData();
-        emit signalSendDataToClient(buffer);
-    }*/
+    info.updataUserinfo(list[0], list[1], list[2], list[3]);
+    emit signalUserLoginSuccess(info);
 }
 
 
@@ -109,53 +88,27 @@ void ExecNormalProtocol::execOperateCmdAskUserInfo(void)
 ///执行操作命令-查询用户
 void ExecNormalProtocol::execOperateSelectUser(void)
 {
-    //qDebug() << "execOperateSelectUser" << QString::fromUtf8(m_protocol.m_dataCont);
-    QString info = QString::fromUtf8(m_protocol.m_dataCont);
-    UserList list;
-    QString mess;
+    QStringList list = QString::fromUtf8(m_protocol.m_dataCont).split("*");
 
+//    qDebug() << "execOperateSelectUser";
+//    qDebug() << list;
+//    qDebug() << "Server---------execOperateSelectUser "<<list.size();
 
-    if(info == "selectAllUser")
-    {
-       list = SQLAnalyze::selectUserInfos();
+    QStringList info;
+    User user;
+    UserList userList;
 
-    }
-    if(info == "selectAdmin")
+    for(int i = 0; i < list.size() - 1; i++)
     {
-        list = SQLAnalyze::selectUserInfosAS("admin");
-    }
-    if(info == "selectTeacher")
-    {
-        list = SQLAnalyze::selectUserInfosAS("teacher");
-    }
-    if(info == "selectStudent")
-    {
-        list = SQLAnalyze::selectUserInfosAS("student");
+        info = list[i].split("|");
+        user.updataUserinfo(info[0],info[1],info[2],info[3]);
+        //user.display();
+        userList.append(user);
     }
 
-    //qDebug() <<  " sever ---list.size" << list.size();
-        for(int i = 0; i < list.size(); i++)
-        {
-            mess.append(list[i].getID());
-            mess.append("|");
-            mess.append(list[i].getName());
-            mess.append("|");
-            mess.append(list[i].getPassword());
-            mess.append("|");
-            mess.append(list[i].getKind());
-            mess.append("*");
-        }
-
-        m_protocol.clearProtocolData();
-        m_dataPacket.clearDataPackect();
-        m_protocol.updateNormalProtocol(CLIENT_NONE,
-                                        OperType_User, CmdUser_SelectUser,
-                                        DataType_Text, mess.toUtf8());
-
-        m_dataPacket.updatePacketData(PacketType_Normal,&m_protocol);
-        QByteArray buffer = m_dataPacket.packetData();
-        emit signalSendDataToClient(buffer);
+    emit signalSelectUserInfos(userList);
 }
+
 
 ////////////执行操作命令-学籍管理
 void ExecNormalProtocol::execOperateCmdStudent(void)
@@ -170,38 +123,27 @@ void ExecNormalProtocol::execOperateCmdStudent(void)
     }
 }
 
-
 ///学生信息获取
 void ExecNormalProtocol::execOperateCmdAskStuInfo(void)
-{ 
-    qDebug() << "execOperateCmdAskStuInfo" << QString::fromUtf8(m_protocol.m_dataCont);
-    QString info = QString::fromUtf8(m_protocol.m_dataCont);
-    StudentList list;
-    QString mess;
+{
 
-    if(info == "selectAllStudent")
+    QStringList list = QString::fromUtf8(m_protocol.m_dataCont).split("*");
+
+    QStringList info;
+    Student student;
+
+    StudentList stuList;
+
+    for(int i = 0; i < list.size() - 1; i++)
     {
-       list = SQLAnalyze::selectStudentInfos();
-
+        info = list[i].split("|");
+        student.updataUserinfo(info[0], info[1], info[2], info[3]);
+        student.updataStudentinfo(info[4], info[5], info[6], info[7],info[8], info[9]);
+        student.display();
+        stuList.append(student);
     }
 
-        for(int i = 0; i < list.size(); i++)
-        {
-           mess = list[i].packageinfos();
-           mess.append("*");
-        }
-
-         qDebug() << "execOperateCmdAskStuInfo" << mess;
-
-        m_protocol.clearProtocolData();
-        m_dataPacket.clearDataPackect();
-        m_protocol.updateNormalProtocol(CLIENT_NONE,
-                                        OperType_Student, CmdStudent_AskStuInfo,
-                                        DataType_Text, mess.toUtf8());
-
-        m_dataPacket.updatePacketData(PacketType_Normal,&m_protocol);
-        QByteArray buffer = m_dataPacket.packetData();
-        emit signalSendDataToClient(buffer);
+    emit signalSelectStuAll(stuList);
 }
 
 ///添加学生信息
@@ -235,6 +177,7 @@ void ExecNormalProtocol::execOperateCmdTake(void)
         break;
     }
 }
+
 
 ///执行操作命令-查看选课管理规定
 void ExecNormalProtocol::execOperateCmdAskManageInfo(void)
@@ -540,7 +483,7 @@ void ExecNormalProtocol::execOperateCmdDelClass(void)
 }
 
 
-/////////////////教室分配//执行操作命令-教室分配
+////////////////教室分配//执行操作命令-教室分配
 void ExecNormalProtocol::execOperateCmdRoom(void)
 {
     switch (m_protocol.m_operCmd) {

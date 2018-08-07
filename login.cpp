@@ -1,61 +1,35 @@
 #include "login.h"
 #include "ui_login.h"
 
-#include <QDebug>
-#include <QMessageBox>
-
-#include "sqlanalysis.h"
-#include "userinfo.h"
-
-
 //构造函数
-Login::Login(QWidget *parent) :
+login::login(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Login)
+    ui(new Ui::login)
 {
     ui->setupUi(this);
 }
 
 //析构函数
-Login::~Login()
+login::~login()
 {
     delete ui;
 }
 
-///槽-点击进入
-void Login::on_pb_enter_clicked()
+///点击登陆键
+void login::on_pb_login_clicked()
 {
-    UserInfo info = SQLAnalysis::selectUserInfo(ui->le_id->text());
-    if(info.getPassword() == ui->le_pswd->text())
-    {
-        emit signalLoginSuccess(info);
-        this->hide();
-    }else
-    {
-        QMessageBox msgBox;
-        msgBox.setText("ERROR: Your uid or password!!");
-        msgBox.setInformativeText("Do you want to save your changes?");
-        msgBox.setStandardButtons(QMessageBox::Retry | QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::Retry);
-
-        int ret = msgBox.exec();
-        switch (ret) {
-          case QMessageBox::Retry:
-              ui->le_id->setFocus();
-              msgBox.close();
-              break;
-          case QMessageBox::Cancel:
-              ui->le_id->setFocus();
-              break;
-          default:
-              // should never be reached
-              break;
-        }
-    }
+    emit signalConnectServer(ui->le_id->text(),ui->le_password->text());
 }
 
-///槽-点击取消
-void Login::on_pb_cancle_clicked()
+///点击退出键
+void login::on_pb_quit_clicked()
 {
     this->close();
+}
+
+///关闭事件
+void login::closeEvent(QCloseEvent *ev)
+{
+    emit signalCloseProject();
+    ev->accept();
 }

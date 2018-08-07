@@ -2,10 +2,8 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 HEADERS += \
-    $$PWD/connectclient.h \
-    $$PWD/listenclient.h
+    $$PWD/connectserver.h
 
 SOURCES += \
-    $$PWD/connectclient.cpp \
-    $$PWD/listenclient.cpp
+    $$PWD/connectserver.cpp
 

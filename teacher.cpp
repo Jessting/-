@@ -53,3 +53,5 @@ QString Teacher::getSalary(void) const
 {
     return m_salary;
 }
+
+
